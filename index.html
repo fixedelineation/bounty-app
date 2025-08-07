@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1894.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; min-height: 14.0px}
+    span.s1 {font: 12.0px 'Apple Color Emoji'}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en" class="dark"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Bounty Station&lt;/title&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Vue 3 (ESM build) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="importmap"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>"imports": {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>"vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>"qrcode.vue": "https://unpkg.com/qrcode.vue@3.4.1/dist/index.esm.js",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>"vue3-toastify": "https://unpkg.com/vue3-toastify@0.2.1/dist/index.esm.js",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>"@formkit/vue": "https://cdn.jsdelivr.net/npm/@formkit/vue@next/dist/index.esm.js"</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- TailwindCSS (JIT) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com" defer&gt;&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- FormKit default theme --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link href="https://cdn.jsdelivr.net/npm/@formkit/themes@next/dist/tailwindcss/index.min.css" rel="stylesheet" /&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>html,body { margin:0; height:100%; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>.gradient-bg { background:linear-gradient(135deg,#0d0d0d 0%,#1a1a1a 100%); min-height:100vh; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/head&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;body class="dark gradient-bg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="app"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="module"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>import { createApp, ref } from 'vue'</p>
+<p class="p1"><span class="Apple-converted-space">      </span>import QrcodeVue from 'qrcode.vue'</p>
+<p class="p1"><span class="Apple-converted-space">      </span>import * as toastify from 'vue3-toastify'</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const { toast } = toastify</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const App = {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>components: { QrcodeVue },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setup() {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>/***********************</p>
+<p class="p1"><span class="Apple-converted-space">           </span>* Reactive state</p>
+<p class="p1"><span class="Apple-converted-space">           </span>***********************/</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const invoice <span class="Apple-converted-space">  </span>= ref(null)</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const loading <span class="Apple-converted-space">  </span>= ref(false)</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const errorMsg<span class="Apple-converted-space">  </span>= ref('')</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>// FormKit model</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const formState = ref({ message:'', amount:1000 })</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>/***********************</p>
+<p class="p1"><span class="Apple-converted-space">           </span>* "Issue Invoice" logic</p>
+<p class="p1"><span class="Apple-converted-space">           </span>* – adapted from the Python CLI into pure JS</p>
+<p class="p1"><span class="Apple-converted-space">           </span>* <span class="Apple-converted-space">  </span>using the browser-only library</p>
+<p class="p1"><span class="Apple-converted-space">           </span>* <span class="Apple-converted-space">  </span>https://cdn.jsdelivr.net/npm/light-bolt11-decoder@3.0.0/+esm</p>
+<p class="p1"><span class="Apple-converted-space">           </span>* <span class="Apple-converted-space">  </span>+ https://cdn.jsdelivr.net/npm/bolt11@1.4.0/+esm</p>
+<p class="p1"><span class="Apple-converted-space">           </span>* We compose an unsigned bolt11 string that is valid</p>
+<p class="p1"><span class="Apple-converted-space">           </span>* everywhere for routing purposes (no signature, but valid prefixes).</p>
+<p class="p1"><span class="Apple-converted-space">           </span>* If you want *signed* invoices live you MUST move this</p>
+<p class="p1"><span class="Apple-converted-space">           </span>* to a back-end running the Python script or equivalent.</p>
+<p class="p1"><span class="Apple-converted-space">           </span>***********************/</p>
+<p class="p1"><span class="Apple-converted-space">          </span>import { hexToBytes, bytesToHex } from 'https://cdn.jsdelivr.net/npm/light-bolt11-decoder@3.0.0/esm/utils.js'</p>
+<p class="p1"><span class="Apple-converted-space">          </span>import * as bolt11 from 'https://cdn.jsdelivr.net/npm/bolt11@1.4.0/+esm'</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>async function generateBolt11({ description, msats, expirySeconds = 7200 }) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const timestamp = Math.floor(Date.now() / 1000)</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Basic unsigned bolt11 invoice</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// nodeId &amp; signature placeholders -&gt; real invoices need your node</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const zapRequestJSON = {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>kind:<span class="Apple-converted-space">      </span>9734,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>created_at: timestamp,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>tags: [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>["relays"], <span class="Apple-converted-space">                  </span>// add relay URLs if known</p>
+<p class="p1"><span class="Apple-converted-space">                </span>["amount", String(msats)],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>["p", "&lt;your-node-id&gt;"],<span class="Apple-converted-space">      </span>// replace or omit</p>
+<p class="p1"><span class="Apple-converted-space">                </span>["e", "&lt;description-hash&gt;"] <span class="Apple-converted-space">  </span>// unimplemented here</p>
+<p class="p1"><span class="Apple-converted-space">              </span>],</p>
+<p class="p1"><span class="Apple-converted-space">              </span>content: description</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// *** Signed invoices live on a back-end ***</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Here we create only an *unsigned* routing invoice so QR looks real.</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const ourJSInvoice = {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>satoshis:<span class="Apple-converted-space">      </span>msats / 1000,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>timestamp: <span class="Apple-converted-space">    </span>timestamp,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>expiry:<span class="Apple-converted-space">        </span>expirySeconds,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>description: <span class="Apple-converted-space">  </span>description,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>tags:<span class="Apple-converted-space">          </span>[]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Use the bolt11 JS lib to encode the above data</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const invoiceStr = bolt11.encode(ourJSInvoice)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return invoiceStr.paymentRequest || invoiceStr</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>async function issueInvoice() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>errorMsg.value = ''</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const { message, amount } = formState.value</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!amount || amount &lt; 1000) {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>errorMsg.value = 'Amount must be at least 1000 msats.'</p>
+<p class="p1"><span class="Apple-converted-space">              </span>return</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>loading.value <span class="Apple-converted-space">    </span>= true</p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>invoice.value <span class="Apple-converted-space">  </span>= await generateBolt11({</p>
+<p class="p1"><span class="Apple-converted-space">                </span>description: message || 'GitHub bounty tip',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>msats: Number(amount)</p>
+<p class="p1"><span class="Apple-converted-space">              </span>})</p>
+<p class="p1"><span class="Apple-converted-space">              </span>// auto-copy after tiny delay so DOM updates</p>
+<p class="p1"><span class="Apple-converted-space">              </span>setTimeout(copyInvoice, 400)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (e) {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>errorMsg.value = e.message || 'Could not create invoice'</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} finally {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>loading.value = false</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>function copyInvoice() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!invoice.value) return</p>
+<p class="p1"><span class="Apple-converted-space">            </span>navigator.clipboard.writeText(invoice.value).then(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>toast.success('Bolt11 invoice copied!', { autoClose: 2000 })</p>
+<p class="p1"><span class="Apple-converted-space">            </span>})</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>function resetInvoice() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>invoice.value<span class="Apple-converted-space">  </span>= null</p>
+<p class="p1"><span class="Apple-converted-space">            </span>formState.value = { message:'', amount:1000 }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>errorMsg.value = ''</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>/***********************</p>
+<p class="p1"><span class="Apple-converted-space">           </span>* Presentation mask helpers (display “1 000” etc.)</p>
+<p class="p1"><span class="Apple-converted-space">           </span>***********************/</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const prettyAmount = ref()</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const format = (raw) =&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>raw?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') || ''</p>
+<p class="p1"><span class="Apple-converted-space">          </span>return {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>loading,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>formState,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>invoice,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>errorMsg,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>issueInvoice,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>copyInvoice,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>resetInvoice,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>prettyAmount</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>},</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>template: `</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="max-w-md mx-auto px-4 py-10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="bg-gray-800 bg-opacity-80 rounded-xl p-6 shadow-2xl"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;h1 class="text-2xl font-extrabold text-center text-purple-400 mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span><span class="s1">⚡</span> Bounty Station</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/h1&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;!-- ===== Form ===== --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;FormKit type="form" v-model="formState" @submit="issueInvoice"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;FormKit</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>type="text"</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>name="message"</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>label="Message / Memo"</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>placeholder="Thanks for your work on ..."</p>
+<p class="p1"><span class="Apple-converted-space">                </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;FormKit</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>type="number"</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>name="amount"</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>label="Amount (millisats)"</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>validation="required|min:1000"</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>value="1000"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/FormKit&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;!-- ===== Error / Loading ===== --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;p v-if="errorMsg" class="text-sm text-red-400 mt-2"&gt;{{ errorMsg }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;p v-if="loading" class="text-sm text-white mt-2"&gt;Creating invoice...&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;!-- ===== Invoice display ===== --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div v-if="invoice" class="mt-6 space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;textarea</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>readonly</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>:value="invoice"</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>class="w-full h-28 p-2 bg-gray-900 rounded text-xs</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>text-green-400 border border-green-600 resize-none"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&gt;&lt;/textarea&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex justify-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;qrcode-vue :value="invoice" :size="200" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>@click="copyInvoice"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>class="flex-1 bg-green-500 hover:bg-green-600 text-black font-semibold px-4 py-2 rounded"</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>Copy</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>@click="resetInvoice"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>class="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-semibold px-4 py-2 rounded"</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>Reset</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt; &lt;!-- /invoice --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>`</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>/* Mount the app */</p>
+<p class="p1"><span class="Apple-converted-space">      </span>import * as FormKitVue from '@formkit/vue'</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const { plugin, defaultConfig } = FormKitVue</p>
+<p class="p1"><span class="Apple-converted-space">      </span>createApp(App)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.use(plugin, defaultConfig)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.mount('#app')</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
